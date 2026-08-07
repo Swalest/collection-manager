@@ -1,7 +1,8 @@
-import { Component, computed, effect, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, model, signal } from '@angular/core';
 import { CollectionItemCard } from './components/collection-item-card/collection-item-card';
 import { CollectionItem } from './models/collection-item';
 import { SearchBar } from './components/search-bar/search-bar';
+import { Collection } from './models/collection';
 
 @Component({
   selector: 'app-root',
@@ -11,21 +12,26 @@ import { SearchBar } from './components/search-bar/search-bar';
     CollectionItemCard,
     SearchBar
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class App {
+  search = model<string>('timbre');
+
   linx!: CollectionItem;
   coin!: CollectionItem;
-  count: number = 0;
-  searchText: string = '';
+  stamp!: CollectionItem;
 
-  itemList: CollectionItem[] = [];
-  selectedItemIndex = signal(0);
-  selectedItem = computed(() =>{
-    return this.itemList[this.selectedItemIndex()];
-  })
-
-  logEffect = effect(() =>{
-    console.log(this.selectedItemIndex(), this.selectedItem());
+  selectedCollection = signal<Collection | null>(null);
+  collectionItems = computed(() => {
+    const allItems = this.selectedCollection()?.items;
+    if(!this.search()){
+      return allItems;
+    }else {
+      return allItems?.filter(item => 
+        item.name.toLowerCase().includes(
+          this.search().toLowerCase())
+      );
+    }
   });
 
   constructor() {
@@ -38,21 +44,20 @@ export class App {
 
     this.linx = new CollectionItem();
 
-    this.itemList = [
+    this.stamp = new CollectionItem();
+    this.stamp.name = 'vieux timbre';
+    this.stamp.description = 'un vieux timbre.';
+    this.stamp.rarity = 'Rare';
+    this.stamp.img = 'img/timbre1.jpg';
+    this.stamp.price = 555;
+    
+    const defaultCollection = new Collection();
+    defaultCollection.title = "Default Collection'";
+    defaultCollection.items = [
       this.coin,
-      this.linx
+      this.linx,
+      this.stamp
     ]
-  }
-
-  incrementCount() {
-    this.count++;
-  }
-
-  incrementIndex() {
-    // const currentValue = this.selectedItemIndex();
-    // this.selectedItemIndex.set((currentValue + 1) % 2);
-    this.selectedItemIndex.update((currentValue) => {
-      return (currentValue + 1) % 2;
-    });
+    this.selectedCollection.set(defaultCollection);
   }
 }

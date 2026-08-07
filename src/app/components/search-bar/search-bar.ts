@@ -1,4 +1,4 @@
-import { Component, input, model, output, Output, OutputEmitterRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, model, output, Output, OutputEmitterRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
   imports: [FormsModule],
   templateUrl: './search-bar.html',
   styleUrl: './search-bar.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SearchBar {
 

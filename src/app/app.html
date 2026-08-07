@@ -1,29 +1,21 @@
 <header id="collection-header">
   <h1>My Collection</h1>
   <div>
-    <!--
-    One-way binding*
-    <app-search-bar
-          (searchButtonClicked)="incrementCount()"
-          [search]="searchText"
-          (searchChange) = "searchText = $event"
-    >
-    -->
-
     <!--two-way binding-->
     <app-search-bar
-          (searchButtonClicked)="incrementCount()"
-          [(search)]="searchText"
+          [(search)]="search"
     >
     </app-search-bar>
-    Clicked count: {{count}} <br>
-    Search text: {{searchText}}
   </div>
 </header>
 <section class="collection-item-card-container">
-  <!--
-  <app-collection-item-card [item]="itemList[selectedItemIndex()]"></app-collection-item-card>
-  -->
-  <app-collection-item-card [item]="selectedItem()"></app-collection-item-card>
+  @for(item of collectionItems(); track item.name){
+    <app-collection-item-card [item]="item"></app-collection-item-card>
+  }
 </section>
-<button (click)="incrementIndex()">Toggle</button>
+@let itemsCount = collectionItems()?.length;
+@if(itemsCount){
+  <div class="centered">Found {{itemsCount}} results</div>
+} @else {
+  <div class="centered">No items found .</div>
+}
