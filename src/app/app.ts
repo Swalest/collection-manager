@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, computed, effect, model, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, model, signal } from '@angular/core';
 import { CollectionItemCard } from './components/collection-item-card/collection-item-card';
 import { CollectionItem } from './models/collection-item';
 import { SearchBar } from './components/search-bar/search-bar';
 import { Collection } from './models/collection';
+import { CollectionService } from './services/collection-service';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,10 @@ import { Collection } from './models/collection';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class App {
-  search = model<string>('timbre');
+
+  private collectionService = inject(CollectionService);
+
+  search = model<string>('');
 
   linx!: CollectionItem;
   coin!: CollectionItem;
@@ -35,29 +39,17 @@ export class App {
   });
 
   constructor() {
-    this.coin = new CollectionItem();
-    this.coin.name = 'Pièce de 1972';
-    this.coin.description = 'Pièce de 50 centimes de francs.';
-    this.coin.rarity = 'Commune';
-    this.coin.img = 'img/coin1.jpg';
-    this.coin.price = 175;
+    const allCollections = this.collectionService.getAll();
+    if(allCollections.length > 0){
+      this.selectedCollection.set(allCollections[0]);
+    }
+  }
 
-    this.linx = new CollectionItem();
-
-    this.stamp = new CollectionItem();
-    this.stamp.name = 'vieux timbre';
-    this.stamp.description = 'un vieux timbre.';
-    this.stamp.rarity = 'Rare';
-    this.stamp.img = 'img/timbre1.jpg';
-    this.stamp.price = 555;
-    
-    const defaultCollection = new Collection();
-    defaultCollection.title = "Default Collection'";
-    defaultCollection.items = [
-      this.coin,
-      this.linx,
-      this.stamp
-    ]
-    this.selectedCollection.set(defaultCollection);
+  addGenericItem(){
+    const collection = this.selectedCollection();
+    if(collection){
+      const storedCollection = this.collectionService.addItem(collection, new CollectionItem());
+      this.selectedCollection.set(storedCollection);
+    }
   }
 }
