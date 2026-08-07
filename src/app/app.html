@@ -22,9 +22,8 @@
 </header>
 <section class="collection-item-card-container">
   <!--
-  <app-collection-item-card [collection-item]="linx"></app-collection-item-card>
-  <app-collection-item-card [collection-item]="coin"></app-collection-item-card>
+  <app-collection-item-card [item]="itemList[selectedItemIndex()]"></app-collection-item-card>
   -->
-  <app-collection-item-card [item]="linx"></app-collection-item-card>
-  <app-collection-item-card [item]="coin"></app-collection-item-card>
+  <app-collection-item-card [item]="selectedItem()"></app-collection-item-card>
 </section>
+<button (click)="incrementIndex()">Toggle</button>
