@@ -1,0 +1,16 @@
+<!--
+@if(itemId()){
+    <p>Item {{ itemId() }}!</p>
+    <button (click)="next()">Next</button>
+}@else {
+    <p>New item!</p>
+}
+-->
+
+@let selectedItemId = itemId();
+@if(selectedItemId){
+    <p>Item {{ selectedItemId }}!</p>
+    <button [routerLink]="['/item', selectedItemId + 1]">Next</button>
+}@else {
+    <p>New item!</p>
+}

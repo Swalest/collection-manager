@@ -1,0 +1,20 @@
+#collection-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 1rem;
+}
+
+.collection-item-card-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 1rem;
+    flex-wrap: wrap;
+}
+
+
+.centered {
+    text-align: center;
+    margin-top: 1rem;
+}
