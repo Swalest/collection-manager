@@ -1,11 +1,33 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { ChangeDetectionStrategy, Component, inject, OnDestroy } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
+import { MatAnchor } from "@angular/material/button";
+import { LoginService } from './services/login/login-service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.html',
   styleUrl: './app.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterOutlet]
+  imports: [RouterOutlet, MatAnchor]
 })
-export class App {}
+export class App implements OnDestroy {
+
+  private loginService = inject(LoginService);
+  private router = inject(Router);
+
+  user = this.loginService.user;
+
+  private logoutSubscription: Subscription | null = null;
+
+  logout(){
+    this.logoutSubscription = this.loginService.logout().subscribe({
+      next: () => this.router.navigate(['login']),
+      error: () => this.router.navigate(['login'])
+    })
+  }
+
+  ngOnDestroy(): void {
+    this.logoutSubscription?.unsubscribe();
+  }
+}

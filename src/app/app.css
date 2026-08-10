@@ -1,0 +1,17 @@
+.dot {
+    border-radius: 0.5rem;
+    margin-right: 0.5rem;
+}
+
+.collection {
+    display: flex;
+    flex-direction: column;
+}
+
+.collection .name {
+    font-weight: bolder;
+}
+
+.collection .items-count {
+    font-size: smaller;
+}

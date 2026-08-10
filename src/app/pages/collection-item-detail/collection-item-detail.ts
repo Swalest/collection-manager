@@ -3,7 +3,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CollectionItem, Rarities, Rarity } from '../../models/collection-item';
 import { CollectionItemCard } from '../../components/collection-item-card/collection-item-card';
 import { Router } from '@angular/router';
-import { CollectionService } from '../../services/collection-service';
+import { CollectionService } from '../../services/collection/collection-service';
 import { Collection } from '../../models/collection';
 import { Subscription } from 'rxjs';
 import {MatButtonModule} from '@angular/material/button';
