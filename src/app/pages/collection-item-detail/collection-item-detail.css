@@ -8,8 +8,14 @@ app-collection-item-card {
     justify-content: center;
 }
 
-.form {
-    max-width: 300px;
+form {
+    max-width: 400px;
+    width: calc(100% - 1rem);
+    background-color: white;
+    padding: 1rem;
+    margin-top: 10px;
+    border-radius: 10px;
+    border: 1px solid lightgray;
 }
 
 .form-field {
@@ -32,29 +38,19 @@ label {
     color: red;
 }
 
-.my-actions {
+
+.action-buttons {
     display: flex;
-    justify-content: space-between;
+    gap: 1rem;
+    align-content: space-between;
 }
 
-.my-actions button {
-    padding: 10px;
-    border-radius: 10%;
-    color: white;
+.action-buttons .left, .action-buttons .right {
+    display: flex;
+    gap: 1;
+    flex-grow: 1;
 }
 
-.my-actions .cancel {
-    background-color: black;
-}
-
-.my-actions .add {
-    background-color: blue;
-}
-
-.my-actions .update {
-    background-color: blueviolet;
-}
-
-.my-actions .delete {
-    background-color: red;
+.action-buttons .right {
+    justify-content: right;
 }

@@ -4,12 +4,14 @@ import { CollectionItem } from '../../models/collection-item';
 import { Collection } from '../../models/collection';
 import { CollectionItemCard } from '../../components/collection-item-card/collection-item-card';
 import { SearchBar } from '../../components/search-bar/search-bar';
+import { Router } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-collection-detail',
   imports: [
       CollectionItemCard,
-      SearchBar
+      SearchBar, MatButtonModule
     ],
   templateUrl: './collection-detail.html',
   styleUrl: './collection-detail.css',
@@ -17,6 +19,7 @@ import { SearchBar } from '../../components/search-bar/search-bar';
 })
 export class CollectionDetail {
   private collectionService = inject(CollectionService);
+  private router = inject(Router);
 
   search = model<string>('');
 
@@ -46,10 +49,6 @@ export class CollectionDetail {
   }
 
   addGenericItem(){
-    const collection = this.selectedCollection();
-    if(collection){
-      const storedCollection = this.collectionService.addItem(collection, new CollectionItem());
-      this.selectedCollection.set(storedCollection);
-    }
+    this.router.navigate(['item']);
   }
 }

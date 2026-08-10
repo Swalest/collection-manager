@@ -43,7 +43,7 @@ export class CollectionService {
 
   generateDummyData(){
     const coin = new CollectionItem();
-    coin.id = 2;
+    coin.id = 1;
     coin.name = 'Pièce de 1972';
     coin.description = 'Pièce de 50 centimes de francs.';
     coin.rarity = Rarities.Common;
@@ -51,14 +51,12 @@ export class CollectionService {
     coin.price = 175;
     
     const stamp = new CollectionItem();
-    stamp.id = 3;
+    stamp.id = 2;
     stamp.name = 'vieux timbre';
     stamp.description = 'un vieux timbre.';
     stamp.rarity = Rarities.Rare;
     stamp.image = 'img/timbre1.jpg';
     stamp.price = 555;
-    
-    const linx = new CollectionItem();
         
     const defaultCollection = new Collection();
     defaultCollection.title = "Collection mix";
@@ -66,7 +64,6 @@ export class CollectionService {
     const storedCollection = this.add(defaultCollection);
     this.addItem(storedCollection, coin);
     this.addItem(storedCollection, stamp);
-    this.addItem(storedCollection, linx);
     
   }
 

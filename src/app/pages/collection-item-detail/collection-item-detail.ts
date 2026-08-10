@@ -1,29 +1,30 @@
 import { Component, effect, inject, input, OnDestroy, signal } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CollectionItem, Rarities, Rarity } from '../../models/collection-item';
 import { CollectionItemCard } from '../../components/collection-item-card/collection-item-card';
 import { Router } from '@angular/router';
 import { CollectionService } from '../../services/collection-service';
 import { Collection } from '../../models/collection';
 import { Subscription } from 'rxjs';
-//import { form, FormField, required } from '@angular/forms/signals';
+import {MatButtonModule} from '@angular/material/button';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
 
 @Component({
   selector: 'app-collection-item-detail',
-  imports: [/*FormField,*/ ReactiveFormsModule, CollectionItemCard],
+  imports: [
+      ReactiveFormsModule,
+      CollectionItemCard,
+      MatButtonModule,
+      MatFormFieldModule,
+      MatInputModule,
+      MatSelectModule,
+    ],
   templateUrl: './collection-item-detail.html',
   styleUrl: './collection-item-detail.css',
 })
 export class CollectionItemDetail implements OnDestroy {
-  /*
-  formModel = signal({
-    'name': ''
-  });
-
-  testForm = form(this.formModel, (schemaPath) =>{
-    required(schemaPath.name, { message: 'Name is required !'});
-  });
-  */
 
   private fb = inject(FormBuilder);
   private router = inject(Router);
@@ -42,15 +43,6 @@ export class CollectionItemDetail implements OnDestroy {
 
   valueChangeSubscription: Subscription | null = null;
 
-  /*
-  itemFormGroup = new FormGroup({
-    name: new FormControl('', [Validators.required]),
-    description: new FormControl('', [Validators.required]),
-    image: new FormControl('', [Validators.required]),
-    rarity: new FormControl(Rarities.Common, [Validators.required]),
-    price: new FormControl(0, [Validators.required, Validators.min(0)])
-  });
-  */
  itemFormGroup = this.fb.group({
     name: ['', [Validators.required]],
       description: ['', [Validators.required]],
@@ -81,22 +73,9 @@ export class CollectionItemDetail implements OnDestroy {
     )
   }
 
-  //nameFormControl = new FormControl('', [Validators.required]);
-  //priceFormControl = new FormControl(0, [Validators.required, Validators.min(0)]);
-
   submit(event: Event){
     event.preventDefault();
-    //console.log(`Values of our form: ${JSON.stringify(this.testForm().value(), null, 2)}`);
-    //console.log(`The value of our name: ${this.nameFormControl.value}`)
-    //console.log(`The value of our price: ${this.priceFormControl.value}`)
-    console.log(this.itemFormGroup.value)
   }
-
-  /*
-  setName(){
-    this.nameFormControl.setValue('Change Me')
-  }
-  */
 
   isFieldValid(fieldName: string){
     const formControl = this.itemFormGroup.get(fieldName);

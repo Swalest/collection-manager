@@ -1,5 +1,7 @@
 
 .collection-item-card {
+    height: 340px;
+    width: 240px;
     position: relative;
     background: #f0f6ff;
     border: 1px solid #8ca3c7;
@@ -8,6 +10,8 @@
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     max-width: 16rem;
     cursor: pointer;
+    align-content: center;
+    justify-items: center;
 }
 
 .collection-item-card:hover {

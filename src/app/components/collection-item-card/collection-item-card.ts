@@ -13,21 +13,6 @@ export class CollectionItemCard {
 
   item = input.required<CollectionItem>();
   private router = inject(Router);
-  /*
-  item: InputSignal<CollectionItem> = input.required<CollectionItem>({
-    alias: 'collection-item'
-  });
-  */
-
-  /*
-  item: InputSignal<CollectionItem> = input.required<CollectionItem, CollectionItem>({
-            alias: 'collection-item',
-            transform: (collectionItem) => {
-              collectionItem.price = collectionItem.price * 1.17;
-              return collectionItem;
-            }
-          });
-          */
 
   onDetail(itemId: number){
     if(itemId)
