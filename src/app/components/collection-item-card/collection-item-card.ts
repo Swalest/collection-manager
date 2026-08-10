@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, input, InputSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, InputSignal } from '@angular/core';
 import { CollectionItem } from '../../models/collection-item';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-collection-item-card',
@@ -11,6 +12,7 @@ import { CollectionItem } from '../../models/collection-item';
 export class CollectionItemCard {
 
   item = input.required<CollectionItem>();
+  private router = inject(Router);
   /*
   item: InputSignal<CollectionItem> = input.required<CollectionItem>({
     alias: 'collection-item'
@@ -26,4 +28,10 @@ export class CollectionItemCard {
             }
           });
           */
+
+  onDetail(itemId: number){
+    if(itemId)
+      this.router.navigate(['item', itemId]);
+    else this.router.navigate(['not-found']);
+  }
 }

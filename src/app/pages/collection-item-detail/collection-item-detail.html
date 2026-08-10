@@ -1,16 +1,95 @@
 <!--
-@if(itemId()){
-    <p>Item {{ itemId() }}!</p>
-    <button (click)="next()">Next</button>
-}@else {
-    <p>New item!</p>
-}
+<form (submit)="submit($event)">
+    <label for="name">Name: </label>
+    <input [formField]="testForm.name" /> <br>
+    <button type="submit" [disabled]="!testForm().valid()">Submit</button>
+</form>
 -->
 
-@let selectedItemId = itemId();
-@if(selectedItemId){
-    <p>Item {{ selectedItemId }}!</p>
-    <button [routerLink]="['/item', selectedItemId + 1]">Next</button>
-}@else {
-    <p>New item!</p>
-}
+<app-collection-item-card [item]="collectionItem()" />
+
+<form [formGroup]="itemFormGroup" (submit)="submit($event)">
+    <div class="form-field">
+        <label for="name">Name: </label>
+        <input id="name" name="name" formControlName="name">
+        @if(isFieldValid('name')){
+            <div class="error">This field is required !</div>
+        }
+    </div>
+    <div class="form-field">
+        <label for="description">Description: </label>
+        <textarea 
+            id="description" name="description"
+            formControlName="description"
+            rows="5"
+        >
+        </textarea>
+        @if(isFieldValid('description')){
+            <div class="error">This field is required !</div>
+        }
+    </div>
+    <div class="form-field">
+        <label for="image">Image: </label>
+        <input
+            id="image" name="image" type="file"
+            (change)="onFileChange($event)"
+        >
+        @if(isFieldValid('image')){
+            <div class="error">This field is required !</div>
+        }
+    </div>
+    <div class="form-field">
+        <label for="price">Price: </label>
+        <input
+            id="price" name="price"
+            type="number" formControlName="price"
+        >
+        @if(isFieldValid('price')){
+            @let priceFC = itemFormGroup.get('price');
+            @if(priceFC?.hasError('min')){
+                <div class="error">
+                    This value must be bigger or equal to 0 .
+                </div>
+            } @else {
+                <div class="error">This field is required !</div>
+            }
+        }
+    </div>
+    <div class="form-field">
+        <label for="rarity">Rarity: </label>
+        <select
+            id="rarity" name="rarity"
+            formControlName="rarity"
+        >
+        @for(rarity of rarities; track rarity){
+            <option [value]="rarity">{{rarity}}</option>
+        }
+        </select>
+    </div>
+    <div class="my-actions">
+        <button
+            class="cancel"
+            (click)="onCancel()"
+            type="button"
+            [disabled]="itemFormGroup.invalid"
+        >Cancel</button>
+        <button
+            class="add"
+            (click)="onAdd()"
+            type="button"
+            [disabled]="itemFormGroup.invalid"
+        >Add</button>
+        <button
+            class="update"
+            (click)="onUpdate(itemId())"
+            type="button"
+            [disabled]="itemFormGroup.invalid"
+        >Update</button>
+        <button
+            class="delete"
+            (click)="onDelete(itemId())"
+            type="button"
+            [disabled]="itemFormGroup.invalid"
+        >Delete</button>
+    </div>
+</form>²

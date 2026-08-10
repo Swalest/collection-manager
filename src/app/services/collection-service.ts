@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Collection } from '../models/collection';
-import { CollectionItem } from '../models/collection-item';
+import { CollectionItem, Rarities } from '../models/collection-item';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +28,7 @@ export class CollectionService {
         return collection;
       });
 
-      this.currentId = Math.max(...this.collections.map(Collection => Collection.id));
+      this.currentId = Math.max(...this.collections.map(collection => collection.id));
       this.collections.reduce(
         (indexes: {[key: number]: number}, collection) =>{
           indexes[collection.id] = Math.max(...collection.items.map(item => item.id))
@@ -43,17 +43,19 @@ export class CollectionService {
 
   generateDummyData(){
     const coin = new CollectionItem();
+    coin.id = 2;
     coin.name = 'Pièce de 1972';
     coin.description = 'Pièce de 50 centimes de francs.';
-    coin.rarity = 'Commune';
-    coin.img = 'img/coin1.jpg';
+    coin.rarity = Rarities.Common;
+    coin.image = 'img/coin1.jpg';
     coin.price = 175;
     
     const stamp = new CollectionItem();
+    stamp.id = 3;
     stamp.name = 'vieux timbre';
     stamp.description = 'un vieux timbre.';
-    stamp.rarity = 'Rare';
-    stamp.img = 'img/timbre1.jpg';
+    stamp.rarity = Rarities.Rare;
+    stamp.image = 'img/timbre1.jpg';
     stamp.price = 555;
     
     const linx = new CollectionItem();
@@ -65,6 +67,7 @@ export class CollectionService {
     this.addItem(storedCollection, coin);
     this.addItem(storedCollection, stamp);
     this.addItem(storedCollection, linx);
+    
   }
 
   getAll(): Collection[]{
@@ -111,11 +114,11 @@ export class CollectionService {
     );
 
     if(!storedCollection) return null;
-    let storedItemIndex = 0;
-    if(storedCollection.items.length > 0)
-      storedItemIndex = storedCollection.items.findIndex(storedItem => storedItem.id === item.id);
+    // let storedItemIndex = 0;
+    // if(storedCollection.items.length > 0)
+    //   storedItemIndex = storedCollection.items.findIndex(storedItem => storedItem.id === item.id);
 
-    if(storedItemIndex === -1) return null;
+    // if(storedItemIndex !== -1) return null;
     storedCollection.items.push(item.copy());
     this.save();
 
@@ -126,7 +129,7 @@ export class CollectionService {
     const storedCollection = this.collections.find(collection => collection.id == collectionId);
     if(!storedCollection) return null;
 
-    storedCollection.items.filter(item => item.id !== itemId);
+    storedCollection.items = storedCollection.items.filter(item => item.id !== itemId);
     this.save();
 
     return storedCollection.copy();

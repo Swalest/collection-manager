@@ -28,6 +28,7 @@ export class CollectionDetail {
   collectionItems = computed(() => {
     const allItems = this.selectedCollection()?.items;
     if(!this.search()){
+      console.log(`${JSON.stringify(allItems, null, 2)}`);
       return allItems;
     }else {
       return allItems?.filter(item => 
